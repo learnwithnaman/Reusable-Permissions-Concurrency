@@ -5,7 +5,8 @@ on:
     branches: [main]
 
 permissions:
-  contents: write              # robot ko sirf code padhne ki permission
+  contents: read
+  issues: write
 
 concurrency:
   group: ci-${{ github.ref }}
@@ -33,7 +34,7 @@ jobs:
 
 
       - name: Issue banao
-        run: gh issue create --title "Test" --body "Robot ne banaya"
+        run: gh issue create --repo ${{ github.repository }} --title "Test" --body "Robot ne banaya"
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
