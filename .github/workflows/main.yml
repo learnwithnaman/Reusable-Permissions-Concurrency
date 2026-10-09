@@ -31,6 +31,12 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+
+      - name: Issue banao
+        run: gh issue create --title "Test" --body "Robot ne banaya"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
   test-py311:
     uses: ./.github/workflows/reusable-test.yml
     with:
