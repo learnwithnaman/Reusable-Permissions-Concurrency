@@ -5,7 +5,7 @@ on:
     branches: [main]
 
 permissions:
-  contents: read              # robot ko sirf code padhne ki permission
+  contents: write              # robot ko sirf code padhne ki permission
 
 concurrency:
   group: ci-${{ github.ref }}
