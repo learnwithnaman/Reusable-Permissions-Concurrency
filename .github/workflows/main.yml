@@ -1,0 +1,42 @@
+name: Main Workflow
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read              # robot ko sirf code padhne ki permission
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true    # naya push aaye toh purana run cancel
+
+env:
+  APP_NAME: my-calculator     # workflow-level variable
+
+jobs:
+  info:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Contexts dikhao
+        run: |
+          echo "App: $APP_NAME"
+          echo "Kisne push kiya: ${{ github.actor }}"
+          echo "Branch: ${{ github.ref_name }}"
+          echo "Commit: ${{ github.sha }}"
+          echo "Event: ${{ github.event_name }}"
+
+      - name: GITHUB_TOKEN se repo dekho
+        run: gh repo view ${{ github.repository }}
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  test-py311:
+    uses: ./.github/workflows/reusable-test.yml
+    with:
+      python-version: "3.11"
+
+  test-py312:
+    uses: ./.github/workflows/reusable-test.yml
+    with:
+      python-version: "3.12"
